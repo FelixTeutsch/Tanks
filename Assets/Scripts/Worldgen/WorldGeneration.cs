@@ -10,12 +10,15 @@ namespace Worldgen
         [SerializeField] private GameObject tilePrefab;
         [SerializeField] private GameObject treePrefab;
         [SerializeField] private GameObject rockPrefab;
+        [SerializeField] private GameObject playerPrefab;
         [SerializeField] private int numberOfTiles;
 
         [SerializeField] private float perlinScale = 0.1f;
         [SerializeField] private float perlinAmplitude = 5f;
         [SerializeField] private int perlinSeed = 42;
         [SerializeField] private float minBottomDistance = 0.5f;
+
+        [SerializeField] private int playerCount = 2;
 
 
         private GameObject[] _generatedRocks;
@@ -30,6 +33,9 @@ namespace Worldgen
 
         private void Start()
         {
+            // randomize the seed
+            perlinSeed = new Random().Next(0, 10000);
+
             // Get the width and height of the camera in world units
             _worldWidth = CameraUtility.GetCameraWidth(Camera.main);
             _worldHeight = CameraUtility.GetCameraHeight(Camera.main);
@@ -42,10 +48,36 @@ namespace Worldgen
             _generatedTiles = new GameObject[numberOfTiles];
             _generatedTrees = new GameObject[numberOfTiles];
             _generatedRocks = new GameObject[numberOfTiles];
-            GenerateWorld();
+            var heightMap = GenerateWorld();
+
+            // Spawn the players
+            SpawnPlayers(heightMap);
         }
 
-        private void GenerateWorld()
+        private void SpawnPlayers(float[] heightMap)
+        {
+            // Calculate the spacing between players
+            var spacing = _worldWidth / (playerCount + 1);
+
+            for (var i = 0; i < playerCount; i++)
+            {
+                // Calculate the x position for the player
+                var xPos = spacing * (i + 1) - _worldWidth / 2;
+
+                // Find the closest tile index to the x position
+                var tileIndex = Mathf.Clamp(Mathf.RoundToInt((xPos + _worldWidth / 2) / _tileWidth), 0,
+                    numberOfTiles - 1);
+
+                // Calculate the y position using the height map
+                var yPos = _worldBottom + heightMap[tileIndex] + minBottomDistance;
+
+                // Instantiate the player at the calculated position
+                var player = Instantiate(playerPrefab, new Vector3(xPos, yPos, 0), Quaternion.identity);
+                player.name = $"Player {i + 1}";
+            }
+        }
+
+        private float[] GenerateWorld()
         {
             // Generate the height map
             var heightMap = GenerateHeightMap();
@@ -56,9 +88,10 @@ namespace Worldgen
                 var height = heightMap[x] + minBottomDistance;
                 var position = new Vector3((_worldWidth - _tileWidth) / 2 - x * _tileWidth, _worldBottom + height / 2,
                     0);
-                var tile = Instantiate(tilePrefab, position, Quaternion.identity);
+                var tile = Instantiate(tilePrefab, position, Quaternion.identity, transform);
                 tile.transform.localScale = new Vector3(_tileWidth, height, 1);
                 _generatedTiles[x] = tile;
+                tile.transform.name = $"Tile {x}";
 
                 var decorationSize = _tileWidth;
                 var randomValue = UnityEngine.Random.value;
@@ -75,6 +108,8 @@ namespace Worldgen
                 //         _generatedRocks[x] = decoration;
                 // }
             }
+
+            return heightMap;
         }
 
         private float[] GenerateHeightMap()
