@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Utility;
 using Random = System.Random;
@@ -31,7 +32,8 @@ namespace Worldgen
 
         private float _worldWidth;
 
-        private void Start()
+
+        public List<GameObject> InitialiseMap()
         {
             // randomize the seed
             perlinSeed = new Random().Next(0, 10000);
@@ -48,14 +50,16 @@ namespace Worldgen
             _generatedTiles = new GameObject[numberOfTiles];
             _generatedTrees = new GameObject[numberOfTiles];
             _generatedRocks = new GameObject[numberOfTiles];
+
             var heightMap = GenerateWorld();
 
-            // Spawn the players
-            SpawnPlayers(heightMap);
+            return SpawnPlayers(heightMap);
         }
 
-        private void SpawnPlayers(float[] heightMap)
+
+        private List<GameObject> SpawnPlayers(float[] heightMap)
         {
+            var players = new List<GameObject>();
             // Calculate the spacing between players
             var spacing = _worldWidth / (playerCount + 1);
 
@@ -74,7 +78,10 @@ namespace Worldgen
                 // Instantiate the player at the calculated position
                 var player = Instantiate(playerPrefab, new Vector3(xPos, yPos, 0), Quaternion.identity);
                 player.name = $"Player {i + 1}";
+                players.Add(player);
             }
+
+            return players;
         }
 
         private float[] GenerateWorld()
