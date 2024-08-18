@@ -22,7 +22,6 @@ namespace Utility
         // Update is called once per frame
         private void Update()
         {
-            
         }
 
         public void UpdateWind()
@@ -31,8 +30,12 @@ namespace Utility
             _windSpeed += _windTrend * Random.Range(0, windChangeRate);
             _windSpeed = Mathf.Clamp(_windSpeed, minWindSpeed, maxWindSpeed);
 
-            // Change trend direction if limits are reached
-            if (_windSpeed >= maxWindSpeed || _windSpeed <= minWindSpeed || Random.Range(0, 1) < .01) _windTrend *= -1;
+            if (_windSpeed >= maxWindSpeed || _windSpeed <= minWindSpeed || Random.Range(0, 1) < .1f)
+            {
+                Debug.Log(
+                    $"Wind change due to {(_windSpeed >= maxWindSpeed ? "reaching max speed" : _windSpeed <= minWindSpeed ? "reaching min speed" : "random factor")}: {_windSpeed}. Max: {maxWindSpeed}, Min: {minWindSpeed}");
+                _windTrend *= -1;
+            }
 
             windText.SetText($"Wind: {_windSpeed.ToString("00")}");
         }

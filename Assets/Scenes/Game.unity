@@ -818,8 +818,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   windText: {fileID: 2135130533}
-  maxWindSpeed: 10
-  minWindSpeed: -10
+  maxWindSpeed: 150
+  minWindSpeed: -150
+  windChangeRate: 5
 --- !u!4 &983887956
 Transform:
   m_ObjectHideFlags: 0
