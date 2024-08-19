@@ -30,7 +30,7 @@ namespace Utility
             _windSpeed += _windTrend * Random.Range(0, windChangeRate);
             _windSpeed = Mathf.Clamp(_windSpeed, minWindSpeed, maxWindSpeed);
 
-            if (_windSpeed >= maxWindSpeed || _windSpeed <= minWindSpeed || Random.Range(0, 1) < .1f)
+            if (_windSpeed >= maxWindSpeed || _windSpeed <= minWindSpeed || Random.Range(0, 100) <= 1)
             {
                 Debug.Log(
                     $"Wind change due to {(_windSpeed >= maxWindSpeed ? "reaching max speed" : _windSpeed <= minWindSpeed ? "reaching min speed" : "random factor")}: {_windSpeed}. Max: {maxWindSpeed}, Min: {minWindSpeed}");

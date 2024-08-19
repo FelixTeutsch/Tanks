@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Utility;
 
@@ -42,6 +43,11 @@ namespace Projectile
         public GameObject GetOwner()
         {
             return Owner;
+        }
+
+        public void OnDestroy()
+        {
+            GameManager.Instance.SwitchPlayer();
         }
 
         public abstract float CalculateDamage(Vector2 playerPosition);

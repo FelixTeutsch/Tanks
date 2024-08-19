@@ -84,8 +84,8 @@ namespace Tank
 
         public void OnFire()
         {
-            Debug.Log("Firing. Game manager: " + _gameManager.currentPlayer.name + " This player: " + gameObject.name);
             if (_gameManager.currentPlayer.name != gameObject.name) return;
+            Debug.Log("Firing. Game manager: " + _gameManager.currentPlayer.name + " This player: " + gameObject.name);
             var bulletPosition = cannon.position + cannon.right * 0.1f;
             var bullet = Instantiate(bulletPrefab, bulletPosition, Quaternion.identity, transform);
             var direction = cannon.right; // Adjusted to use the local right axis
@@ -93,7 +93,7 @@ namespace Tank
             bullet.GetComponent<IProjectile>().SetOwner(gameObject);
             try
             {
-                _gameManager.SwitchPlayer();
+                // _gameManager.SwitchPlayer();
             }
             catch (Exception e)
             {

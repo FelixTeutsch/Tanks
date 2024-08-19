@@ -11,7 +11,6 @@ namespace Projectile
             // Avoid player hitting themselves (bullets are trigger) (player still takes damage from explosion)
             if (collision.gameObject.name == Owner.gameObject.name) return;
 
-            Debug.Log("Bullet collided with " + collision.gameObject.name);
             if (collision.gameObject.CompareTag("Tank"))
             {
                 var tank = collision.gameObject.GetComponent<Tank.Tank>();
