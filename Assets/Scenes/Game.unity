@@ -712,7 +712,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   worldGeneration: {fileID: 1966426296}
   windEngine: {fileID: 983887955}
-  powerSlider: {fileID: 1548110439}
+  playerCount: 2
+  players: []
 --- !u!1 &811342813
 GameObject:
   m_ObjectHideFlags: 0
@@ -1739,7 +1740,6 @@ MonoBehaviour:
   perlinAmplitude: 3
   perlinSeed: 43
   minBottomDistance: 2
-  playerCount: 2
 --- !u!4 &1966426297
 Transform:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using Player;
 using UnityEngine;
 
 namespace Projectile
@@ -13,7 +14,7 @@ namespace Projectile
 
             if (collision.gameObject.CompareTag("Tank"))
             {
-                var tank = collision.gameObject.GetComponent<Tank.Tank>();
+                var tank = collision.gameObject.GetComponent<Tank>();
                 if (tank != null) tank.TakeDamage(GetDamage());
             }
 

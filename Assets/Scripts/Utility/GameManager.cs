@@ -1,6 +1,6 @@
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
-using UnityEngine.UI;
 using Worldgen;
 
 namespace Utility
@@ -11,10 +11,12 @@ namespace Utility
 
         [SerializeField] private WorldGeneration worldGeneration;
         [SerializeField] private WindEngine windEngine;
-        public Slider powerSlider;
+        [SerializeField] private PlayerController playerController;
+        [SerializeField] private GameObject playerPrefab;
+        [SerializeField] private int playerCount = 2;
 
-        private List<GameObject> _players;
-        public GameObject currentPlayer { get; private set; }
+        public List<Player.Player> players;
+        public Player.Player CurrentPlayer { get; private set; }
 
         private void Awake()
         {
@@ -23,27 +25,38 @@ namespace Utility
             else if (Instance != this) Destroy(gameObject);
         }
 
-
-        // Start is called before the first frame update
         private void Start()
         {
-            Debug.Log(worldGeneration);
-            _players = worldGeneration.InitialiseMap();
-            Debug.Log(_players);
-            currentPlayer = _players[0];
-        }
+            playerController = PlayerController.Instance;
+            players = new List<Player.Player>();
+            for (var i = 0; i < playerCount; i++)
+            {
+                // Create player
+                var playerObject = Instantiate(playerPrefab);
+                var player = playerObject.GetComponent<Player.Player>();
+                player.name = "Player " + (i + 1);
 
-        // Invoked when the value of the slider changes.
-        public void UpdateTankPower()
-        {
-            currentPlayer.GetComponent<Tank.Tank>().UpdatePower(powerSlider.value);
+                // Add player to list
+                players.Add(player);
+            }
+
+            worldGeneration.InitialiseMap(players);
+
+            Debug.Log("Number of players: " + players.Count);
+
+            CurrentPlayer = players[0];
         }
 
         public void SwitchPlayer()
         {
-            var newPlayerIndex = (_players.IndexOf(currentPlayer) + 1) % _players.Count;
-            currentPlayer = _players[newPlayerIndex];
+            var newPlayerIndex = (players.IndexOf(CurrentPlayer) + 1) % players.Count;
+            CurrentPlayer = players[newPlayerIndex];
             windEngine.UpdateWind();
+        }
+
+        public void RoundOver()
+        {
+            // Handle round over logic
         }
     }
 }

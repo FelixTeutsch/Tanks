@@ -19,8 +19,6 @@ namespace Worldgen
         [SerializeField] private int perlinSeed = 42;
         [SerializeField] private float minBottomDistance = 0.5f;
 
-        [SerializeField] private int playerCount = 2;
-
 
         private GameObject[] _generatedRocks;
         private GameObject[] _generatedTiles;
@@ -33,7 +31,7 @@ namespace Worldgen
         private float _worldWidth;
 
 
-        public List<GameObject> InitialiseMap()
+        public void InitialiseMap(List<Player.Player> players)
         {
             // randomize the seed
             perlinSeed = new Random().Next(0, 10000);
@@ -53,17 +51,18 @@ namespace Worldgen
 
             var heightMap = GenerateWorld();
 
-            return SpawnPlayers(heightMap);
+            SpawnPlayers(heightMap, players);
         }
 
 
-        private List<GameObject> SpawnPlayers(float[] heightMap)
+        private void SpawnPlayers(float[] heightMap, List<Player.Player> players)
         {
-            var players = new List<GameObject>();
-            // Calculate the spacing between players
-            var spacing = _worldWidth / (playerCount + 1);
+            var numberOfPlayers = players.Count;
 
-            for (var i = 0; i < playerCount; i++)
+            // Calculate the spacing between players
+            var spacing = _worldWidth / (numberOfPlayers + 1);
+
+            for (var i = 0; i < numberOfPlayers; i++)
             {
                 // Calculate the x position for the player
                 var xPos = spacing * (i + 1) - _worldWidth / 2;
@@ -76,12 +75,11 @@ namespace Worldgen
                 var yPos = _worldBottom + heightMap[tileIndex] + minBottomDistance;
 
                 // Instantiate the player at the calculated position
-                var player = Instantiate(playerPrefab, new Vector3(xPos, yPos, 0), Quaternion.identity);
-                player.name = $"Player {i + 1}";
-                players.Add(player);
+                var player = Instantiate(playerPrefab, new Vector3(xPos, yPos, 0), Quaternion.identity,
+                    players[i].transform);
+                player.name = $"Tank {i + 1}";
+                players[i].AssignTank(player);
             }
-
-            return players;
         }
 
         private float[] GenerateWorld()
