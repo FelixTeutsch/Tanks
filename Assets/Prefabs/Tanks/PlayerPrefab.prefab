@@ -44,8 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba2ec6136dc14d978fedcea610c5aeeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerColor: 2
+  playerColor: 0
   updateColor: 0
   score: 0
   tank: {fileID: 0}
   inventory: []
+  controlsLocked: 0

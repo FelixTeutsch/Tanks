@@ -1,3 +1,4 @@
+using System;
 using Projectile;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,13 +29,18 @@ namespace Player
 
         [Range(0, 100)] [SerializeField] private float hp = 100;
 
-        [SerializeField] private Slider powerSlider;
         [SerializeField] private Slider tankHealthBar;
+
+        [SerializeField] private bool controlsLocked;
+        private float _cannonInput;
 
         private float _currentSpeedCannon;
         private float _currentSpeedTank;
 
+        private float _movementInput;
+
         private PlayerController _playerController;
+
 
         private void Awake()
         {
@@ -47,23 +53,50 @@ namespace Player
             tankHealthBar.value = hp;
         }
 
+        // Update is called once per frame
+        private void Update()
+        {
+            // Apply continuous cannon rotation
+            if (_cannonInput != 0 && !controlsLocked)
+            {
+                var newAngle = cannon.localEulerAngles.z + _cannonInput * _currentSpeedCannon * Time.deltaTime;
+                newAngle = Mathf.Clamp(newAngle, 0, 180);
+                cannon.localEulerAngles = new Vector3(cannon.localEulerAngles.x, cannon.localEulerAngles.y, newAngle);
+                _currentSpeedCannon = Math.Min(cannonMaxSpeed, _currentSpeedCannon * 1.01f);
+            }
+            else
+            {
+                _cannonInput = 0;
+            }
+
+            // Apply continuous movement
+            if (_movementInput != 0 && !controlsLocked)
+            {
+                var move = new Vector3(_movementInput, 0, 0);
+                transform.position += move * (_currentSpeedTank * Time.deltaTime);
+                _currentSpeedTank = Math.Min(tankMaxSpeed, _currentSpeedTank * 1.01f);
+            }
+            else
+            {
+                _movementInput = 0;
+            }
+        }
+
         public void Move(float movementInput)
         {
-            var move = new Vector3(movementInput, 0, 0);
-            transform.position += move * (_currentSpeedTank * Time.deltaTime);
-            _currentSpeedTank = Mathf.Min(tankMaxSpeed, _currentSpeedTank * 1.01f);
+            _movementInput = movementInput;
+            _currentSpeedTank = tankSpeed;
         }
 
         public void RotateCannon(float cannonInput)
         {
-            var newAngle = cannon.localEulerAngles.z + cannonInput * _currentSpeedCannon * Time.deltaTime;
-            newAngle = Mathf.Clamp(newAngle, 0, 180);
-            cannon.localEulerAngles = new Vector3(cannon.localEulerAngles.x, cannon.localEulerAngles.y, newAngle);
-            _currentSpeedCannon = Mathf.Min(cannonMaxSpeed, _currentSpeedCannon * 1.01f);
+            _cannonInput = cannonInput;
+            _currentSpeedCannon = cannonRotationSpeed;
         }
 
         public void Fire()
         {
+            LockControls();
             var bulletPosition = cannon.position + cannon.right * 0.1f;
             var bullet = Instantiate(bulletPrefab, bulletPosition, Quaternion.identity, transform);
             var direction = cannon.right;
@@ -84,9 +117,18 @@ namespace Player
             tankHealthBar.value = hp;
         }
 
-        public void UpdatePower(float newPower)
+        public float UpdatePower(float newPower)
         {
-            power = Mathf.Clamp(newPower, 0, 50f);
+            Debug.Log("Tank - UpdatePower START");
+            power = Mathf.Clamp(newPower, 0, 50f); // Limit power to max HP
+            Debug.Log("Current Power: " + power);
+            Debug.Log("Tank - UpdatePower END");
+            return power;
+        }
+
+        public float GetPower()
+        {
+            return power;
         }
 
         public void SetColour(EColour colour)
@@ -105,6 +147,18 @@ namespace Player
             {
                 Debug.LogError($"Sprites for colour {colour.ToString().ToLower()} not found.");
             }
+        }
+
+        // locks controls so tank can't take actions anymore
+        public void LockControls()
+        {
+            controlsLocked = true;
+        }
+
+        // unlocks controls, so tank can take actions again
+        public void UnlockControls()
+        {
+            controlsLocked = false;
         }
     }
 }

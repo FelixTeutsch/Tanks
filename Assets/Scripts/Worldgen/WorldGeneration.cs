@@ -33,6 +33,7 @@ namespace Worldgen
 
         public void InitialiseMap(List<Player.Player> players)
         {
+            Debug.Log("InitialiseMap START");
             // randomize the seed
             perlinSeed = new Random().Next(0, 10000);
 
@@ -52,11 +53,13 @@ namespace Worldgen
             var heightMap = GenerateWorld();
 
             SpawnPlayers(heightMap, players);
+            Debug.Log("InitialiseMap END");
         }
 
 
         private void SpawnPlayers(float[] heightMap, List<Player.Player> players)
         {
+            Debug.Log("SpawnPlayers START");
             var numberOfPlayers = players.Count;
 
             // Calculate the spacing between players
@@ -74,12 +77,18 @@ namespace Worldgen
                 // Calculate the y position using the height map
                 var yPos = _worldBottom + heightMap[tileIndex] + minBottomDistance;
 
+                Debug.Log("Spawning player " + (i + 1));
                 // Instantiate the player at the calculated position
-                var player = Instantiate(playerPrefab, new Vector3(xPos, yPos, 0), Quaternion.identity,
+                var tank = Instantiate(playerPrefab, new Vector3(xPos, yPos, 0), Quaternion.identity,
                     players[i].transform);
-                player.name = $"Tank {i + 1}";
-                players[i].AssignTank(player);
+                tank.name = $"Tank {i + 1}";
+
+                Debug.Log("Assigning tank to player: " + players[i].name);
+                players[i].AssignTank(tank);
+                Debug.Log("Tank assigned to player");
             }
+
+            Debug.Log("SpawnPlayers END");
         }
 
         private float[] GenerateWorld()
