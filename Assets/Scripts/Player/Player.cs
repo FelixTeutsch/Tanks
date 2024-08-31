@@ -73,7 +73,10 @@ namespace Player
             if (controlsLocked) return;
             LockControls();
             if (ValidateTank())
+            {
                 _tank.Fire();
+                _tank.activePlayer = false;
+            }
         }
 
         private void AssignRandomColor()
@@ -125,6 +128,12 @@ namespace Player
                 return _tank.UpdatePower(power);
             Debug.Log("Player - SetPower END");
             return -1;
+        }
+
+        public void SetActivePlayer()
+        {
+            if (ValidateTank())
+                _tank.activePlayer = true;
         }
     }
 }

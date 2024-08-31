@@ -20,6 +20,8 @@ namespace Utility
         [SerializeField] private ScoreUiController scoreUiController;
 
         public List<Player.Player> players;
+
+        public int ActivePlayers;
         public Player.Player CurrentPlayer { get; private set; }
 
         private void Awake()
@@ -53,7 +55,7 @@ namespace Utility
                 worldGeneration.InitialiseMap(players);
 
                 Debug.Log("Number of players: " + players.Count);
-
+                ActivePlayers = players.Count;
                 CurrentPlayer = players[^1];
                 SwitchPlayer();
                 Debug.Log("GameManager - Start END");
@@ -68,12 +70,28 @@ namespace Utility
         public void SwitchPlayer()
         {
             Debug.Log("GameManager - SwitchPlayer START");
+            if (ActivePlayers <= 1)
+            {
+                RoundOver();
+                Debug.Log("GameManager - SwitchPlayer END");
+                return;
+            }
+
             var newPlayerIndex = (players.IndexOf(CurrentPlayer) + 1) % players.Count;
             CurrentPlayer = players[newPlayerIndex];
-            windEngine.UpdateWind();
-            Debug.Log("Current player: " + CurrentPlayer.name);
-            playerController.SwitchPlayer(CurrentPlayer);
-            scoreUiController.UpdateScore();
+            if (CurrentPlayer.tank == null)
+            {
+                ActivePlayers--;
+                SwitchPlayer();
+            }
+            else
+            {
+                windEngine.UpdateWind();
+                Debug.Log("Current player: " + CurrentPlayer.name);
+                playerController.SwitchPlayer(CurrentPlayer);
+                scoreUiController.UpdateScore();
+            }
+
             Debug.Log("GameManager - SwitchPlayer END");
         }
 

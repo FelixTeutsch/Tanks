@@ -36,6 +36,7 @@ namespace Worldgen
             Debug.Log("InitialiseMap START");
             // randomize the seed
             perlinSeed = new Random().Next(0, 10000);
+            perlinSeed = 7582; // This seed seems to kick a tank off the map
 
             // Get the width and height of the camera in world units
             _worldWidth = CameraUtility.GetCameraWidth(Camera.main);
@@ -79,7 +80,7 @@ namespace Worldgen
 
                 Debug.Log("Spawning player " + (i + 1));
                 // Instantiate the player at the calculated position
-                var tank = Instantiate(playerPrefab, new Vector3(xPos, yPos, 0), Quaternion.identity,
+                var tank = Instantiate(playerPrefab, new Vector3(xPos, yPos + 1, 0), Quaternion.identity,
                     players[i].transform);
                 tank.name = $"Tank {i + 1}";
 

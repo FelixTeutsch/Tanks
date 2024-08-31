@@ -26,6 +26,7 @@ namespace Player
 
         private void Start()
         {
+            // TODO: is this needed? Probably not
             _gameManager = GameManager.Instance;
         }
 
@@ -66,6 +67,7 @@ namespace Player
             UnlockControls();
             Debug.Log("PlayerController - SwitchPlayer - powerSlider: " + powerSlider);
             powerSlider.SetPower(_currentPlayer.GetPower());
+            _currentPlayer.SetActivePlayer();
             Debug.Log("PlayerController - SwitchPlayer END");
         }
 

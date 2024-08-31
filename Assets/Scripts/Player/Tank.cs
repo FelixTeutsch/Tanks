@@ -23,6 +23,8 @@ namespace Player
 
         [SerializeField] private Transform cannon;
         [SerializeField] private Transform tankBody;
+        [SerializeField] private Transform tankBodyOutline;
+        [SerializeField] private Transform tankCannonOutline;
         [SerializeField] private GameObject tank;
 
         [Header("Health")] [SerializeField] private float maxHp = 100;
@@ -32,6 +34,8 @@ namespace Player
         [SerializeField] private Slider tankHealthBar;
 
         [SerializeField] private bool controlsLocked;
+
+        [SerializeField] public bool activePlayer;
         private float _cannonInput;
 
         private float _currentSpeedCannon;
@@ -79,6 +83,17 @@ namespace Player
             else
             {
                 _movementInput = 0;
+            }
+
+            if (activePlayer)
+            {
+                tankBodyOutline.gameObject.SetActive(true);
+                tankCannonOutline.gameObject.SetActive(true);
+            }
+            else
+            {
+                tankBodyOutline.gameObject.SetActive(false);
+                tankCannonOutline.gameObject.SetActive(false);
             }
         }
 
@@ -139,9 +154,15 @@ namespace Player
                 var sprites = tankObject.GetComponentsInChildren<SpriteRenderer>();
                 foreach (var sprite in sprites)
                     if (sprite.gameObject.name.ToLower().Contains("tank"))
-                        tankBody.GetComponent<SpriteRenderer>().sprite = sprite.sprite;
+                        if (sprite.gameObject.name.ToLower().Contains("outline"))
+                            tankBodyOutline.GetComponent<SpriteRenderer>().sprite = sprite.sprite;
+                        else
+                            tankBody.GetComponent<SpriteRenderer>().sprite = sprite.sprite;
                     else if (sprite.gameObject.name.ToLower().Contains("cannon"))
-                        cannon.GetComponent<SpriteRenderer>().sprite = sprite.sprite;
+                        if (sprite.gameObject.name.ToLower().Contains("outline"))
+                            tankCannonOutline.GetComponent<SpriteRenderer>().sprite = sprite.sprite;
+                        else
+                            cannon.GetComponent<SpriteRenderer>().sprite = sprite.sprite;
             }
             else
             {

@@ -35,11 +35,6 @@ namespace UI
             }
         }
 
-        private void Start()
-        {
-            Init();
-        }
-
         private void Update()
         {
             if (updateScore)
@@ -70,6 +65,8 @@ namespace UI
                 var scoreText = scoreUi.transform.Find("Score").GetComponent<TextMeshProUGUI>();
                 nameText.SetText(player.name);
                 scoreText.SetText(player.score.ToString());
+                scoreUi.name = player.name;
+
 
                 _playerScores.Add(new PlayerScore(scoreUi, player));
             }
