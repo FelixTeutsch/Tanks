@@ -13,6 +13,8 @@ namespace Projectile
         private float _cameraLeft;
         private float _cameraRight;
         protected GameObject Owner;
+
+        protected int TotalDamageDealt;
         protected WindEngine WindEngine;
         private Rigidbody2D Rigidbody => GetComponent<Rigidbody2D>();
 
@@ -35,6 +37,13 @@ namespace Projectile
 
         public void OnDestroy()
         {
+            if (Owner != null)
+            {
+                var player = Owner.transform.parent.GetComponent<Player.Player>();
+                Debug.Log(player + " " + TotalDamageDealt + " " + Owner);
+                player.score += TotalDamageDealt;
+            }
+
             GameManager.Instance.SwitchPlayer();
         }
 

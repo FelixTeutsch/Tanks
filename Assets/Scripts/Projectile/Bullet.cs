@@ -15,7 +15,11 @@ namespace Projectile
             if (collision.gameObject.CompareTag("Tank"))
             {
                 var tank = collision.gameObject.GetComponent<Tank>();
-                if (tank != null) tank.TakeDamage(GetDamage());
+                if (tank != null)
+                {
+                    tank.TakeDamage(GetDamage());
+                    TotalDamageDealt += (int)GetDamage();
+                }
             }
 
             Destroy(gameObject);
