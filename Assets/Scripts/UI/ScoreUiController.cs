@@ -112,32 +112,9 @@ namespace UI
                 var nameText = playerScore.ScoreUi.transform.Find("Name").GetComponent<TextMeshProUGUI>();
                 var scoreText = playerScore.ScoreUi.transform.Find("Score").GetComponent<TextMeshProUGUI>();
 
-                var colorHex = GetColorHex(playerScore.Player.playerColor);
+                var colorHex = playerScore.Player.playerColor.GetColour();
                 nameText.color = colorHex;
                 scoreText.color = colorHex;
-            }
-        }
-
-        private Color GetColorHex(EColour color)
-        {
-            switch (color)
-            {
-                case EColour.Red:
-                    return Color.red;
-                case EColour.Blue:
-                    return Color.blue;
-                case EColour.Green:
-                    return Color.green;
-                case EColour.Orange:
-                    return new Color(1f, 0.65f, 0f); // Orange color
-                case EColour.Cyan:
-                    return Color.cyan;
-                case EColour.Purple:
-                    return new Color(0.5f, 0f, 0.5f); // Purple color
-                case EColour.Magenta:
-                    return Color.magenta;
-                default:
-                    return Color.white;
             }
         }
     }

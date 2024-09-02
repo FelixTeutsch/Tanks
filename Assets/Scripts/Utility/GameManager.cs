@@ -19,6 +19,8 @@ namespace Utility
 
         [SerializeField] private ScoreUiController scoreUiController;
 
+        public int maxPlayers = 6;
+
         public List<Player.Player> players;
 
         public int ActivePlayers;

@@ -542,6 +542,86 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
+  - name: white_outline_tank
+    originalName: 
+    pivot: {x: 0.5, y: 0.055555556}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 46
+      y: 68
+      width: 34
+      height: 18
+    spriteID: 0747ec567beb7488eae3ced1153a0411
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: black_outline_tank
+    originalName: 
+    pivot: {x: 0.5, y: 0.055555556}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 88
+      y: 68
+      width: 34
+      height: 18
+    spriteID: d9f6f5fbd488d43bc8b390d10d35670e
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: white_outline_cannon
+    originalName: 
+    pivot: {x: 0.1, y: 0.5}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 58
+      y: 86
+      width: 10
+      height: 6
+    spriteID: 0887ef54f3fbd4eddac4c74bd0958f3f
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: black_outline_cannon
+    originalName: 
+    pivot: {x: 0.1, y: 0.5}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 100
+      y: 86
+      width: 10
+      height: 6
+    spriteID: af46f9068e6bf420dadb2c89f0f8aab3
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
   asepriteLayers:
   - layerIndex: 0
     guid: 1831134312
@@ -606,6 +686,22 @@ ScriptedImporter:
         width: 34
         height: 24
       spriteId: 434c1249cc3ca40fdb93f58cc28e3296
+    - name: Tank Outline Dark_Frame_7
+      frameIndex: 7
+      cellRect:
+        x: 0
+        y: 0
+        width: 34
+        height: 24
+      spriteId: 94d16a31f099c4c389e0d78fc9114db6
+    - name: Tank Outline Dark_Frame_8
+      frameIndex: 8
+      cellRect:
+        x: 0
+        y: 0
+        width: 34
+        height: 24
+      spriteId: 619e097bd243f4cb093e2dc3aca66830
     linkedCells: []
     parentIndex: -1
   platformSettings:
