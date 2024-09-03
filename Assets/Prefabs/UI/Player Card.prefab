@@ -271,7 +271,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5154604411647664285}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4821732227305496268}
+        m_TargetAssemblyTypeName: UI.PlayerCardController, Assembly-CSharp
+        m_MethodName: OnDeleteButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &431238932964109929
 GameObject:
   m_ObjectHideFlags: 0
@@ -283,6 +295,7 @@ GameObject:
   - component: {fileID: 3212797248879852366}
   - component: {fileID: 558629643476064132}
   - component: {fileID: 7629029210956056667}
+  - component: {fileID: 4821732227305496268}
   m_Layer: 5
   m_Name: Player Card
   m_TagString: Untagged
@@ -350,6 +363,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4821732227305496268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 431238932964109929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c620b9ac45a9f4a51a8262aa161867f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerName: 
+  playerColour: 0
 --- !u!1 &2804220113419545851
 GameObject:
   m_ObjectHideFlags: 0

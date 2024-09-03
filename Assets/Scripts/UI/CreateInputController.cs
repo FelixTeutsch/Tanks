@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -20,8 +21,8 @@ namespace UI
         [SerializeField] private TMP_Text playerCountText;
         private readonly int _maxPlayers = 6;
 
+        private readonly List<PlayerInfo> _players = new();
         private Button _activeButton;
-
         private int _playerCount;
         private EColour _selectedColor;
         public static CreateInputController Instance { get; private set; }
@@ -37,12 +38,11 @@ namespace UI
         private void Start()
         {
             PopulateColorArea();
-            // TODO: populate maxPlayers with the value from GameManager
         }
 
         private void Update()
         {
-            addPlayerButton.interactable = playerNameInput.text != "";
+            addPlayerButton.interactable = !string.IsNullOrEmpty(playerNameInput.text);
         }
 
         private void PopulateColorArea()
@@ -69,15 +69,11 @@ namespace UI
 
                 var buttonImage = colorButton.GetComponent<Image>();
                 buttonImage.color = color.GetColour();
-                var buttonColor = buttonImage.color;
-                buttonColor.a = isFirstButton ? 1.0f : 0.5f; // Set opacity to 100% for the first button, 50% for others
-                buttonImage.color = buttonColor;
+                buttonImage.color = new Color(buttonImage.color.r, buttonImage.color.g, buttonImage.color.b,
+                    isFirstButton ? 1.0f : 0.5f);
 
                 var border = colorButton.transform.Find("Border").GetComponent<Image>();
-                ColorUtility.TryParseHtmlString(isFirstButton ? "#DAE7E0" : "#000000", out var borderColor);
-                borderColor.a =
-                    isFirstButton ? 1.0f : 0.25f; // Set opacity to 100% for the first button, 25% for others
-                border.color = borderColor;
+                border.color = new Color(0, 0, 0, isFirstButton ? 1.0f : 0.25f);
 
                 colorButton.GetComponent<ColorButtonClickHandler>().colour = color;
 
@@ -95,6 +91,9 @@ namespace UI
                     row++;
                 }
             }
+
+            // Set the first color button as the default selected color
+            SelectColor(_activeButton, _selectedColor);
         }
 
         public void SelectColor(Button button, EColour color)
@@ -102,70 +101,101 @@ namespace UI
             if (_activeButton != null)
             {
                 var previousBorder = _activeButton.transform.Find("Border").GetComponent<Image>();
-                ColorUtility.TryParseHtmlString("#000000", out var darkColor);
-                darkColor.a = 0.25f; // Set opacity to 25%
-                previousBorder.color = darkColor;
+                previousBorder.color = new Color(0, 0, 0, 0.25f);
 
                 var previousImage = _activeButton.GetComponent<Image>();
-                var previousColor = previousImage.color;
-                previousColor.a = 0.5f; // Set opacity to 50%
-                previousImage.color = previousColor;
+                previousImage.color =
+                    new Color(previousImage.color.r, previousImage.color.g, previousImage.color.b, 0.5f);
             }
 
             _activeButton = button;
             _selectedColor = color;
 
             var currentBorder = _activeButton.transform.Find("Border").GetComponent<Image>();
-            ColorUtility.TryParseHtmlString("#DAE7E0", out var selectedColor);
-            currentBorder.color = selectedColor;
+            currentBorder.color = new Color(0.854f, 0.906f, 0.878f, 1.0f);
 
             var currentImage = _activeButton.GetComponent<Image>();
-            var currentColor = currentImage.color;
-            currentColor.a = 1.0f; // Set opacity to 100%
-            currentImage.color = currentColor;
+            currentImage.color = new Color(currentImage.color.r, currentImage.color.g, currentImage.color.b, 1.0f);
         }
 
         public void CreatePlayer()
         {
-            Debug.Log("CreatePlayer START");
-            Debug.Log("_playerCount: " + _playerCount);
             if (_playerCount >= _maxPlayers) return;
 
             AddPlayerCard(playerNameInput.text, _selectedColor);
 
-            // Reset the input field
             playerNameInput.text = "";
-
-            // Reset the color selection to the first button
             SelectColor(colorArea.transform.GetChild(0).GetComponent<Button>(),
                 (EColour)Enum.GetValues(typeof(EColour)).GetValue(0));
         }
 
         private void AddPlayerCard(string playerName, EColour playerColor)
         {
-            // Instantiate a new player card from the prefab
             var newPlayerCard = Instantiate(playerCard, playerCardArea.transform);
-
             newPlayerCard.name = playerName;
 
-            // Set the player name in the TMP_Text component
             var playerNameText = newPlayerCard.GetComponentInChildren<TMP_Text>();
             playerNameText.text = playerName;
 
-            // Set the player color in the Image component
             var playerColorImage = newPlayerCard.GetComponentsInChildren<Image>()
                 .FirstOrDefault(image => image.name == "Color");
             if (playerColorImage != null)
                 playerColorImage.color = playerColor.GetColour();
 
-            // Position the new player card
             var rectTransform = newPlayerCard.GetComponent<RectTransform>();
             var cardHeight = rectTransform.sizeDelta.y;
-            var gap = 8;
-            var newYPosition = -_playerCount++ * (cardHeight + gap) - 16;
+            var newYPosition = -_playerCount++ * (cardHeight + Padding) - Padding;
             rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, newYPosition);
+
             playerCountText.text = $"{_playerCount}/{_maxPlayers}";
             if (_playerCount == _maxPlayers) addPlayerButton.enabled = false;
+            var playerCardController = newPlayerCard.GetComponent<PlayerCardController>();
+            playerCardController.playerName = playerName;
+            playerCardController.playerColour = playerColor;
+
+            _players.Add(new PlayerInfo(playerName, playerColor, newPlayerCard));
         }
+
+        public void RemovePlayer(string playerName)
+        {
+            Debug.Log("Removing Player " + playerName);
+            var playerInfo = _players.FirstOrDefault(p => p.Name == playerName);
+            if (playerInfo != null)
+            {
+                Destroy(playerInfo.Card);
+                _players.Remove(playerInfo);
+                _playerCount--;
+
+                UpdatePlayerCardPositions();
+
+                playerCountText.text = $"{_playerCount}/{_maxPlayers}";
+                if (_playerCount < _maxPlayers) addPlayerButton.enabled = true;
+            }
+        }
+
+        private void UpdatePlayerCardPositions()
+        {
+            var cardHeight = playerCard.GetComponent<RectTransform>().sizeDelta.y;
+            for (var i = 0; i < _players.Count; i++)
+            {
+                var rectTransform = _players[i].Card.GetComponent<RectTransform>();
+                var newYPosition = -i * (cardHeight + Padding) - Padding;
+                rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, newYPosition);
+            }
+        }
+    }
+
+    public class PlayerInfo
+    {
+        public PlayerInfo(string name, EColour color, GameObject card)
+        {
+            Name = name;
+            Color = color;
+            Card = card;
+        }
+
+        public string Name { get; set; }
+        public EColour Color { get; set; }
+        public GameObject Card { get; set; }
     }
 }
