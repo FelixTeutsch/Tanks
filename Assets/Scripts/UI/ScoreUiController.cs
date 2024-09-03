@@ -20,19 +20,14 @@ namespace UI
         private bool _initialised;
 
         private List<PlayerScore> _playerScores;
-        public static ScoreUiController Instance { get; private set; }
+        public static ScoreUiController instance { get; private set; }
 
         private void Awake()
         {
-            if (Instance == null)
-            {
-                Instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
+            if (instance == null)
+                instance = this;
             else
-            {
                 Destroy(gameObject);
-            }
         }
 
         private void Update()
@@ -47,15 +42,15 @@ namespace UI
         public void Init()
         {
             Debug.Log("ScoreUiController - Init START");
-            var numberOfPlayers = GameManager.Instance.playerCount;
+            var numberOfPlayers = GameManager.instance.playerCount;
             var containerHeight = ContainerHeight + IncreaseSize * numberOfPlayers + Padding * (numberOfPlayers - 1);
             GetComponent<RectTransform>().sizeDelta = new Vector2(ScoreUiWidth, containerHeight);
 
             _playerScores = new List<PlayerScore>();
 
-            for (var i = 0; i < GameManager.Instance.players.Count; i++)
+            for (var i = 0; i < GameManager.instance.getPlayers.Count; i++)
             {
-                var player = GameManager.Instance.players[i];
+                var player = GameManager.instance.getPlayers[i];
                 var scoreUi = Instantiate(scoreUiPrefab, scoreUiParent.transform);
                 var rectTransform = scoreUi.GetComponent<RectTransform>();
                 rectTransform.anchoredPosition = new Vector2(0,
@@ -101,7 +96,7 @@ namespace UI
 
         public void TankActive()
         {
-            if (++_activeTanks == GameManager.Instance.players.Count)
+            if (++_activeTanks == GameManager.instance.getPlayers.Count)
                 SetPlayerColors();
         }
 

@@ -27,7 +27,7 @@ namespace Player
         private void Start()
         {
             // TODO: is this needed? Probably not
-            _gameManager = GameManager.Instance;
+            _gameManager = GameManager.instance;
         }
 
         public void OnMovement(InputValue value)

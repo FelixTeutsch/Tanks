@@ -19,6 +19,7 @@ namespace UI
         [SerializeField] private GameObject playerCardArea;
         [SerializeField] private Button addPlayerButton;
         [SerializeField] private TMP_Text playerCountText;
+        [SerializeField] private Button startGameButton;
         private readonly int _maxPlayers = 6;
 
         private readonly List<PlayerInfo> _players = new();
@@ -43,6 +44,7 @@ namespace UI
         private void Update()
         {
             addPlayerButton.interactable = !string.IsNullOrEmpty(playerNameInput.text);
+            startGameButton.interactable = _playerCount > 1;
         }
 
         private void PopulateColorArea()
@@ -186,7 +188,16 @@ namespace UI
 
         public void StartGame()
         {
-            // TODO: Implement start game logic (e.g. load game scene, pass player info to GameManager, etc.)
+            var names = _players.Select(p => p.Name).ToList();
+            var colors = _players.Select(p => p.Color).ToList();
+            Debug.Log("Starting Game with " + names.Count + " players");
+            Debug.Log("Names: " + string.Join(", ", names));
+            Debug.Log("Colors: " + string.Join(", ", colors));
+
+            GameManager.instance.CreatePlayerObjects(names, colors);
+            GameManager.instance.LogData();
+
+            SceneManager.LoadScene(EScene.Game);
         }
 
         public void BackToMenu()

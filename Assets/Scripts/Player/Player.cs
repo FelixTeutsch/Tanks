@@ -19,13 +19,15 @@ namespace Player
 
         private Tank _tank;
 
+        private void Awake()
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+
         private void Start()
         {
             Debug.Log("Player - Start START");
-            AssignRandomColor();
-            Debug.Log($"Player - Start - {transform.name} Color: {playerColor}");
-            _tank = tank.GetComponent<Tank>();
-            ScoreUiController.Instance.TankActive();
+            Debug.Log($"Player - Start - Player: {transform.name}, Color: {playerColor}");
             Debug.Log("Player - Start END");
         }
 
@@ -35,8 +37,13 @@ namespace Player
             {
                 updateColor = false;
                 if (ValidateTank())
-                    _tank.SetColour(playerColor);
+                    _tank.SetColourAndName(playerColor, name);
             }
+        }
+
+        public void SetColour(EColour colour)
+        {
+            playerColor = colour;
         }
 
         private bool ValidateTank()
@@ -47,10 +54,12 @@ namespace Player
         public void AssignTank(GameObject tankInstance)
         {
             tank = tankInstance;
+            _tank = tank.GetComponent<Tank>();
             // Get the correct script
             ValidateTank();
             // Set the tank's color
-            _tank.SetColour(playerColor);
+            _tank.SetColourAndName(playerColor, name);
+            ScoreUiController.instance.TankActive();
         }
 
         public void MoveTank(float movementInput)
@@ -84,7 +93,7 @@ namespace Player
             var colors = Enum.GetValues(typeof(EColour));
             playerColor = (EColour)colors.GetValue(Random.Range(0, colors.Length));
 
-            if (ValidateTank()) _tank.SetColour(playerColor);
+            if (ValidateTank()) _tank.SetColourAndName(playerColor, name);
         }
 
 

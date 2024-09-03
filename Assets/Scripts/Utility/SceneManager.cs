@@ -52,5 +52,15 @@ namespace Utility
             OnSceneUnloaded?.Invoke(scene);
             Debug.Log($"Scene unloaded: {scene}");
         }
+
+        public static EScene GetCurrentScene()
+        {
+            Debug.Log("Getting name of current scene");
+            var currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+            Debug.Log($"Current scene: {currentScene}");
+            var scene = (EScene)Enum.Parse(typeof(EScene), currentScene.name);
+            Debug.Log($"Enum name of scene: {scene}");
+            return scene;
+        }
     }
 }

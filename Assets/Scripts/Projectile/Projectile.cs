@@ -44,7 +44,7 @@ namespace Projectile
                 player.score += TotalDamageDealt;
             }
 
-            GameManager.Instance.SwitchPlayer();
+            GameManager.instance.SwitchPlayer();
         }
 
         public float GetDamage()

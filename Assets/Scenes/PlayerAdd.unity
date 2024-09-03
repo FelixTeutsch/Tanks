@@ -919,6 +919,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 915488610}
   m_CullTransparentMesh: 1
+--- !u!1 &950066017
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 950066018}
+  - component: {fileID: 950066019}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &950066018
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950066017}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 459.8545, y: 136.24463, z: -0.5871993}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &950066019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950066017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ec6424af9764c0c85a359b7aa4276e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 2654056976262430904, guid: 220ac4e36d7be446fb0638e729e5c4c7, type: 3}
+  playerCount: 7
+  scoreUiController: {fileID: 0}
 --- !u!1 &968350459
 GameObject:
   m_ObjectHideFlags: 0
@@ -2460,11 +2507,23 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 1719404308}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2061367625}
+        m_TargetAssemblyTypeName: UI.CreateInputController, Assembly-CSharp
+        m_MethodName: StartGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1719404308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3082,7 +3141,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 933.7, y: -303.40002}
+  m_AnchoredPosition: {x: 933.7, y: -303.34}
   m_SizeDelta: {x: 192, y: 288}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2061367623
@@ -3143,6 +3202,7 @@ MonoBehaviour:
   playerCardArea: {fileID: 1097523995}
   addPlayerButton: {fileID: 1675429624}
   playerCountText: {fileID: 188142817}
+  startGameButton: {fileID: 1719404307}
 --- !u!1 &2070762127
 GameObject:
   m_ObjectHideFlags: 0
@@ -3300,3 +3360,4 @@ SceneRoots:
   - {fileID: 1632699540}
   - {fileID: 1892841934}
   - {fileID: 774169354}
+  - {fileID: 950066018}

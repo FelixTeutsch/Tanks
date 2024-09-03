@@ -30,10 +30,20 @@ namespace Worldgen
 
         private float _worldWidth;
 
+        private void Start()
+        {
+            InitialiseMap();
+        }
 
-        public void InitialiseMap(List<Player.Player> players)
+
+        public void InitialiseMap()
         {
             Debug.Log("InitialiseMap START");
+            // Get players from Game Manager
+            var players = GameManager.instance.getPlayers;
+            Debug.Log($"Number of Players: {players.Count}");
+            Debug.Log($"Player 1: {players[0].name}");
+
             // randomize the seed
             perlinSeed = new Random().Next(0, 10000);
             perlinSeed = 7582; // This seed seems to kick a tank off the map
@@ -54,6 +64,7 @@ namespace Worldgen
             var heightMap = GenerateWorld();
 
             SpawnPlayers(heightMap, players);
+            GameManager.instance.StartGame();
             Debug.Log("InitialiseMap END");
         }
 

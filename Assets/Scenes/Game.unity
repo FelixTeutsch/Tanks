@@ -1529,58 +1529,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 746541158}
   m_CullTransparentMesh: 1
---- !u!1 &797803290
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 797803291}
-  - component: {fileID: 797803292}
-  m_Layer: 0
-  m_Name: GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &797803291
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 797803290}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &797803292
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 797803290}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ec6424af9764c0c85a359b7aa4276e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  worldGeneration: {fileID: 1966426296}
-  windEngine: {fileID: 983887955}
-  playerController: {fileID: 1088744831}
-  playerPrefab: {fileID: 2867534957051605199, guid: a133ec3fc4944422995c2bab3708602e, type: 3}
-  playerCount: 7
-  scoreUiController: {fileID: 1933814653}
-  players: []
-  ActivePlayers: 0
 --- !u!1 &811342813
 GameObject:
   m_ObjectHideFlags: 0
@@ -2037,7 +1985,7 @@ MonoBehaviour:
   windText: {fileID: 2135130533}
   maxWindSpeed: 150
   minWindSpeed: -150
-  windChangeRate: 5
+  windChangeRate: 30
 --- !u!4 &983887956
 Transform:
   m_ObjectHideFlags: 0
@@ -3673,6 +3621,5 @@ SceneRoots:
   - {fileID: 983887956}
   - {fileID: 463033226}
   - {fileID: 1777202975}
-  - {fileID: 797803291}
   - {fileID: 1692849138}
   - {fileID: 1155871842}

@@ -1,5 +1,5 @@
-using System;
 using Projectile;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Utility;
@@ -25,26 +25,21 @@ namespace Player
         [SerializeField] private Transform tankBody;
         [SerializeField] private Transform tankBodyOutline;
         [SerializeField] private Transform tankCannonOutline;
-        [SerializeField] private GameObject tank;
+        [SerializeField] private Slider tankHealthBar;
+        [SerializeField] private TMP_Text playerNameText;
 
         [Header("Health")] [SerializeField] private float maxHp = 100;
 
         [Range(0, 100)] [SerializeField] private float hp = 100;
 
-        [SerializeField] private Slider tankHealthBar;
-
         [SerializeField] private bool controlsLocked;
-
         [SerializeField] public bool activePlayer;
-        private float _cannonInput;
 
+        private float _cannonInput;
         private float _currentSpeedCannon;
         private float _currentSpeedTank;
-
         private float _movementInput;
-
         private PlayerController _playerController;
-
 
         private void Awake()
         {
@@ -57,44 +52,46 @@ namespace Player
             tankHealthBar.value = hp;
         }
 
-        // Update is called once per frame
         private void Update()
         {
-            // Apply continuous cannon rotation
+            HandleCannonRotation();
+            HandleMovement();
+            UpdateOutlineVisibility();
+        }
+
+        private void HandleCannonRotation()
+        {
             if (_cannonInput != 0 && !controlsLocked)
             {
                 var newAngle = cannon.localEulerAngles.z + _cannonInput * _currentSpeedCannon * Time.deltaTime;
                 newAngle = Mathf.Clamp(newAngle, 0, 180);
                 cannon.localEulerAngles = new Vector3(cannon.localEulerAngles.x, cannon.localEulerAngles.y, newAngle);
-                _currentSpeedCannon = Math.Min(cannonMaxSpeed, _currentSpeedCannon * 1.01f);
+                _currentSpeedCannon = Mathf.Min(cannonMaxSpeed, _currentSpeedCannon * 1.01f);
             }
             else
             {
                 _cannonInput = 0;
             }
+        }
 
-            // Apply continuous movement
+        private void HandleMovement()
+        {
             if (_movementInput != 0 && !controlsLocked)
             {
                 var move = new Vector3(_movementInput, 0, 0);
                 transform.position += move * (_currentSpeedTank * Time.deltaTime);
-                _currentSpeedTank = Math.Min(tankMaxSpeed, _currentSpeedTank * 1.01f);
+                _currentSpeedTank = Mathf.Min(tankMaxSpeed, _currentSpeedTank * 1.01f);
             }
             else
             {
                 _movementInput = 0;
             }
+        }
 
-            if (activePlayer)
-            {
-                tankBodyOutline.gameObject.SetActive(true);
-                tankCannonOutline.gameObject.SetActive(true);
-            }
-            else
-            {
-                tankBodyOutline.gameObject.SetActive(false);
-                tankCannonOutline.gameObject.SetActive(false);
-            }
+        private void UpdateOutlineVisibility()
+        {
+            tankBodyOutline.gameObject.SetActive(activePlayer);
+            tankCannonOutline.gameObject.SetActive(activePlayer);
         }
 
         public void Move(float movementInput)
@@ -134,10 +131,7 @@ namespace Player
 
         public float UpdatePower(float newPower)
         {
-            Debug.Log("Tank - UpdatePower START");
-            power = Mathf.Clamp(newPower, 0, 50f); // Limit power to max HP
-            Debug.Log("Current Power: " + power);
-            Debug.Log("Tank - UpdatePower END");
+            power = Mathf.Clamp(newPower, 0, 50f);
             return power;
         }
 
@@ -146,37 +140,43 @@ namespace Player
             return power;
         }
 
-        public void SetColour(EColour colour)
+        public void SetColourAndName(EColour playerColour, string playerName)
         {
-            var tankObject = _playerController.GetTankSprite(colour);
+            var tankObject = _playerController.GetTankSprite(playerColour);
             if (tankObject != null)
             {
                 var sprites = tankObject.GetComponentsInChildren<SpriteRenderer>();
                 foreach (var sprite in sprites)
                     if (sprite.gameObject.name.ToLower().Contains("tank"))
+                    {
                         if (sprite.gameObject.name.ToLower().Contains("outline"))
                             tankBodyOutline.GetComponent<SpriteRenderer>().sprite = sprite.sprite;
                         else
                             tankBody.GetComponent<SpriteRenderer>().sprite = sprite.sprite;
+                    }
                     else if (sprite.gameObject.name.ToLower().Contains("cannon"))
+                    {
                         if (sprite.gameObject.name.ToLower().Contains("outline"))
                             tankCannonOutline.GetComponent<SpriteRenderer>().sprite = sprite.sprite;
                         else
                             cannon.GetComponent<SpriteRenderer>().sprite = sprite.sprite;
+                    }
+
+                // Set Style
+                playerNameText.SetText(playerName);
+                playerNameText.color = playerColour.GetColour();
             }
             else
             {
-                Debug.LogError($"Sprites for colour {colour.ToString().ToLower()} not found.");
+                Debug.LogError($"Sprites for colour {playerColour.ToString().ToLower()} not found.");
             }
         }
 
-        // locks controls so tank can't take actions anymore
         public void LockControls()
         {
             controlsLocked = true;
         }
 
-        // unlocks controls, so tank can take actions again
         public void UnlockControls()
         {
             controlsLocked = false;
