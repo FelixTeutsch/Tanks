@@ -183,6 +183,16 @@ namespace UI
                 rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, newYPosition);
             }
         }
+
+        public void StartGame()
+        {
+            // TODO: Implement start game logic (e.g. load game scene, pass player info to GameManager, etc.)
+        }
+
+        public void BackToMenu()
+        {
+            SceneManager.LoadScene(EScene.MainMenu);
+        }
     }
 
     public class PlayerInfo
