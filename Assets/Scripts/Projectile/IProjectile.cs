@@ -1,3 +1,4 @@
+using Player;
 using UnityEngine;
 
 namespace Projectile
@@ -31,12 +32,12 @@ namespace Projectile
         ///     Sets the owner of the bullet.
         /// </summary>
         /// <param name="owner">The player who fired the bullet.</param>
-        public void SetOwner(GameObject owner);
+        public void SetOwner(PlayerObject owner);
 
         /// <summary>
         ///     Gets the owner of the bullet.
         /// </summary>
         /// <returns>The player who fired the bullet.</returns>
-        public GameObject GetOwner();
+        public PlayerObject GetOwner();
     }
 }

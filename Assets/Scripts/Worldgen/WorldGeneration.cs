@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
 using Utility;
 using Random = System.Random;
@@ -69,7 +70,7 @@ namespace Worldgen
         }
 
 
-        private void SpawnPlayers(float[] heightMap, List<Player.Player> players)
+        private void SpawnPlayers(float[] heightMap, List<PlayerObject> players)
         {
             Debug.Log("SpawnPlayers START");
             var numberOfPlayers = players.Count;
@@ -91,12 +92,13 @@ namespace Worldgen
 
                 Debug.Log("Spawning player " + (i + 1));
                 // Instantiate the player at the calculated position
-                var tank = Instantiate(playerPrefab, new Vector3(xPos, yPos + 1, 0), Quaternion.identity,
-                    players[i].transform);
-                tank.name = $"Tank {i + 1}";
+                var tank = Instantiate(playerPrefab, new Vector3(xPos, yPos + 1, 0), Quaternion.identity);
+                tank.name = players[i].name;
+                var tankScript = tank.GetComponent<Tank>();
+                tankScript.SetOwner(players[i]);
 
                 Debug.Log("Assigning tank to player: " + players[i].name);
-                players[i].AssignTank(tank);
+                players[i].SetTank(tank);
                 Debug.Log("Tank assigned to player");
             }
 

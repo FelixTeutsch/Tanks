@@ -11,7 +11,7 @@ namespace UI
 
         private void Start()
         {
-            _createInputController = CreateInputController.Instance;
+            _createInputController = CreateInputController.instance;
         }
 
         private void Update()

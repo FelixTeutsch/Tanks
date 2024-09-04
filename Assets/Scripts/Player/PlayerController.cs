@@ -11,7 +11,7 @@ namespace Player
         [SerializeField] private bool controlsLocked;
         [SerializeField] private PowerSlider powerSlider;
 
-        private Player _currentPlayer;
+        private PlayerObject _currentPlayer;
         private GameManager _gameManager;
 
         public static PlayerController Instance { get; private set; }
@@ -59,7 +59,7 @@ namespace Player
             return null;
         }
 
-        public void SwitchPlayer(Player player)
+        public void SwitchPlayer(PlayerObject player)
         {
             Debug.Log("PlayerController - SwitchPlayer START");
             _currentPlayer = player;

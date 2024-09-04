@@ -10,7 +10,7 @@ namespace Projectile
         private void OnTriggerEnter2D(Collider2D collision)
         {
             // Avoid player hitting themselves (bullets are trigger) (player still takes damage from explosion)
-            if (collision.gameObject.name == Owner.gameObject.name) return;
+            if (collision.gameObject.name == Owner.name) return;
 
             if (collision.gameObject.CompareTag("Tank"))
             {

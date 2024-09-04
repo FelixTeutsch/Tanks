@@ -1,3 +1,4 @@
+using Player;
 using UnityEngine;
 using Utility;
 
@@ -12,23 +13,24 @@ namespace Projectile
 
         private float _cameraLeft;
         private float _cameraRight;
-        protected GameObject Owner;
+        private Rigidbody2D _rigidbody2D;
+        protected PlayerObject Owner;
 
         protected int TotalDamageDealt;
         protected WindEngine WindEngine;
-        private Rigidbody2D Rigidbody => GetComponent<Rigidbody2D>();
 
         public void Start()
         {
             WindEngine = FindObjectOfType<WindEngine>();
             _cameraLeft = CameraUtility.GetCameraLeft(Camera.main);
             _cameraRight = CameraUtility.GetCameraRight(Camera.main);
+            _rigidbody2D = GetComponent<Rigidbody2D>();
         }
 
         public void FixedUpdate()
         {
             // Apply a smaller, continuous force to simulate wind effect
-            Rigidbody.AddForce(Vector3.right * (WindEngine.GetWindSpeed() * Time.fixedDeltaTime), ForceMode2D.Force);
+            _rigidbody2D.AddForce(Vector3.right * (WindEngine.GetWindSpeed() * Time.fixedDeltaTime), ForceMode2D.Force);
 
             // Check if bullet is outside the camera view. If so, destroy it
             if (transform.position.x < _cameraLeft || transform.position.x > _cameraRight)
@@ -37,12 +39,7 @@ namespace Projectile
 
         public void OnDestroy()
         {
-            if (Owner != null)
-            {
-                var player = Owner.transform.parent.GetComponent<Player.Player>();
-                Debug.Log(player + " " + TotalDamageDealt + " " + Owner);
-                player.score += TotalDamageDealt;
-            }
+            if (Owner != null) Owner.score += TotalDamageDealt;
 
             GameManager.instance.SwitchPlayer();
         }
@@ -57,16 +54,16 @@ namespace Projectile
             return explosionRadius;
         }
 
-        public void SetOwner(GameObject owner)
+        public abstract float CalculateDamage(Vector2 playerPosition);
+
+        public void SetOwner(PlayerObject owner)
         {
             Owner = owner;
         }
 
-        public GameObject GetOwner()
+        public PlayerObject GetOwner()
         {
             return Owner;
         }
-
-        public abstract float CalculateDamage(Vector2 playerPosition);
     }
 }

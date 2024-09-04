@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Player;
 using TMPro;
 using UnityEngine;
 using Utility;
@@ -61,7 +62,7 @@ namespace UI
                 nameText.SetText(player.name);
                 scoreText.SetText(player.score.ToString());
                 scoreUi.name = player.name;
-
+                SetPlayerColors();
 
                 _playerScores.Add(new PlayerScore(scoreUi, player));
             }
@@ -78,15 +79,15 @@ namespace UI
 
             foreach (var playerScore in _playerScores)
             {
-                var scoreText = playerScore.ScoreUi.transform.Find("Score").GetComponent<TextMeshProUGUI>();
-                scoreText.SetText(playerScore.Player.score.ToString());
+                var scoreText = playerScore.scoreUi.transform.Find("Score").GetComponent<TextMeshProUGUI>();
+                scoreText.SetText(playerScore.player.score.ToString());
             }
 
-            _playerScores.Sort((a, b) => b.Player.score.CompareTo(a.Player.score));
+            _playerScores.Sort((a, b) => b.player.score.CompareTo(a.player.score));
 
             for (var i = 0; i < _playerScores.Count; i++)
             {
-                var rectTransform = _playerScores[i].ScoreUi.GetComponent<RectTransform>();
+                var rectTransform = _playerScores[i].scoreUi.GetComponent<RectTransform>();
                 rectTransform.anchoredPosition = new Vector2(0,
                     InitialPosition + (i * IncreaseSize + Padding * i) * IncreaseDirection);
             }
@@ -104,10 +105,10 @@ namespace UI
         {
             foreach (var playerScore in _playerScores)
             {
-                var nameText = playerScore.ScoreUi.transform.Find("Name").GetComponent<TextMeshProUGUI>();
-                var scoreText = playerScore.ScoreUi.transform.Find("Score").GetComponent<TextMeshProUGUI>();
+                var nameText = playerScore.scoreUi.transform.Find("Name").GetComponent<TextMeshProUGUI>();
+                var scoreText = playerScore.scoreUi.transform.Find("Score").GetComponent<TextMeshProUGUI>();
 
-                var colorHex = playerScore.Player.playerColor.GetColour();
+                var colorHex = playerScore.player.colour.GetColour();
                 nameText.color = colorHex;
                 scoreText.color = colorHex;
             }
@@ -116,13 +117,13 @@ namespace UI
 
     internal class PlayerScore
     {
-        public PlayerScore(GameObject scoreUi, Player.Player player)
+        public PlayerScore(GameObject scoreUi, PlayerObject player)
         {
-            ScoreUi = scoreUi;
-            Player = player;
+            this.scoreUi = scoreUi;
+            this.player = player;
         }
 
-        public Player.Player Player { get; }
-        public GameObject ScoreUi { get; }
+        public PlayerObject player { get; }
+        public GameObject scoreUi { get; }
     }
 }

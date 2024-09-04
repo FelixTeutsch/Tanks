@@ -39,6 +39,7 @@ namespace Player
         private float _currentSpeedCannon;
         private float _currentSpeedTank;
         private float _movementInput;
+        private PlayerObject _owner;
         private PlayerController _playerController;
 
         private void Awake()
@@ -113,7 +114,7 @@ namespace Player
             var bullet = Instantiate(bulletPrefab, bulletPosition, Quaternion.identity, transform);
             var direction = cannon.right;
             bullet.GetComponent<Rigidbody2D>().AddForce(direction * power, ForceMode2D.Impulse);
-            bullet.GetComponent<IProjectile>().SetOwner(gameObject);
+            bullet.GetComponent<IProjectile>().SetOwner(_owner);
         }
 
         public void TakeDamage(float damage)
@@ -121,6 +122,11 @@ namespace Player
             hp -= damage;
             tankHealthBar.value = hp;
             if (hp <= 0) Destroy(gameObject);
+        }
+
+        public void SetOwner(PlayerObject owner)
+        {
+            _owner = owner;
         }
 
         public void Heal(float amount)

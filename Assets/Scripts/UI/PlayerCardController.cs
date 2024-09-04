@@ -19,7 +19,7 @@ namespace UI
 
         private void OnDeleteButtonClick()
         {
-            var createInputController = CreateInputController.Instance;
+            var createInputController = CreateInputController.instance;
             createInputController.RemovePlayer(playerName);
         }
     }

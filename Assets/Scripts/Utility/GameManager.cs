@@ -8,16 +8,16 @@ namespace Utility
 {
     public class GameManager : MonoBehaviour
     {
-        [SerializeField] private GameObject playerPrefab;
+        [SerializeField] private GameObject tankPrefab;
         [SerializeField] public int playerCount = 7;
         [SerializeField] private bool printPlayers;
-        private List<Player.Player> players { get; set; }
+        private List<PlayerObject> players { get; set; }
         public static GameManager instance { get; private set; }
 
-        public Player.Player currentPlayer { get; private set; }
+        public PlayerObject currentPlayer { get; private set; }
         public int activePlayers { get; private set; }
 
-        public List<Player.Player> getPlayers => players;
+        public List<PlayerObject> getPlayers => players;
 
         private void Awake()
         {
@@ -30,14 +30,6 @@ namespace Utility
             {
                 Destroy(gameObject);
             }
-        }
-
-        private void Start()
-        {
-            Debug.Log("GameManager - Start START");
-            if (SceneManager.GetCurrentScene() == EScene.Game && (players == null || players.Count < 1))
-                LoadRandomPlayers();
-            Debug.Log("GameManager - Start END");
         }
 
         private void Update()
@@ -76,41 +68,32 @@ namespace Utility
             Debug.Log("GameManager - InitializeGame END");
         }
 
-        private void LoadRandomPlayers()
+        // public void CreatePlayerObjects(List<string> playerNames, List<EColour> playerColours)
+        // {
+        //     players = new List<PlayerObject>();
+        //
+        //     Debug.Log("Starting Game with " + playerNames.Count + " players");
+        //     Debug.Log("Names: " + string.Join(", ", playerNames));
+        //     Debug.Log("Colors: " + string.Join(", ", playerColours));
+        //
+        //     for (var i = 0; i < playerNames.Count; i++)
+        //     {
+        //         var playerObject = Instantiate(tankPrefab);
+        //         var player = playerObject.GetComponent<Player.Player>();
+        //         Debug.Log("Player Name: " + playerNames[i]);
+        //         Debug.Log("Player Colour: " + playerColours[i]);
+        //         Debug.Log("Player: " + player);
+        //         player.name = playerNames[i];
+        //         player.SetColour(playerColours[i]);
+        //         players.Add(player);
+        //     }
+        //
+        //     playerCount = players.Count;
+        // }
+
+        public void SetPlayers(List<PlayerObject> playerList)
         {
-            // Here for debug purposes
-            players = new List<Player.Player>();
-
-            for (var i = 0; i < playerCount; i++)
-            {
-                var playerObject = Instantiate(playerPrefab);
-                var player = playerObject.GetComponent<Player.Player>();
-                player.name = "Player " + (i + 1);
-                player.SetColour((EColour)(i % Enum.GetValues(typeof(EColour)).Length));
-                players.Add(player);
-            }
-        }
-
-        public void CreatePlayerObjects(List<string> playerNames, List<EColour> playerColours)
-        {
-            players = new List<Player.Player>();
-
-            Debug.Log("Starting Game with " + playerNames.Count + " players");
-            Debug.Log("Names: " + string.Join(", ", playerNames));
-            Debug.Log("Colors: " + string.Join(", ", playerColours));
-
-            for (var i = 0; i < playerNames.Count; i++)
-            {
-                var playerObject = Instantiate(playerPrefab);
-                var player = playerObject.GetComponent<Player.Player>();
-                Debug.Log("Player Name: " + playerNames[i]);
-                Debug.Log("Player Colour: " + playerColours[i]);
-                Debug.Log("Player: " + player);
-                player.name = playerNames[i];
-                player.SetColour(playerColours[i]);
-                players.Add(player);
-            }
-
+            players = playerList;
             playerCount = players.Count;
         }
 

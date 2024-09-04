@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Player;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,12 +27,12 @@ namespace UI
         private Button _activeButton;
         private int _playerCount;
         private EColour _selectedColor;
-        public static CreateInputController Instance { get; private set; }
+        public static CreateInputController instance { get; private set; }
 
         private void Awake()
         {
-            if (Instance == null)
-                Instance = this;
+            if (instance == null)
+                instance = this;
             else
                 Destroy(gameObject);
         }
@@ -161,10 +162,10 @@ namespace UI
         public void RemovePlayer(string playerName)
         {
             Debug.Log("Removing Player " + playerName);
-            var playerInfo = _players.FirstOrDefault(p => p.Name == playerName);
+            var playerInfo = _players.FirstOrDefault(p => p.name == playerName);
             if (playerInfo != null)
             {
-                Destroy(playerInfo.Card);
+                Destroy(playerInfo.card);
                 _players.Remove(playerInfo);
                 _playerCount--;
 
@@ -180,7 +181,7 @@ namespace UI
             var cardHeight = playerCard.GetComponent<RectTransform>().sizeDelta.y;
             for (var i = 0; i < _players.Count; i++)
             {
-                var rectTransform = _players[i].Card.GetComponent<RectTransform>();
+                var rectTransform = _players[i].card.GetComponent<RectTransform>();
                 var newYPosition = -i * (cardHeight + Padding) - Padding;
                 rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, newYPosition);
             }
@@ -188,13 +189,13 @@ namespace UI
 
         public void StartGame()
         {
-            var names = _players.Select(p => p.Name).ToList();
-            var colors = _players.Select(p => p.Color).ToList();
+            var names = _players.Select(p => p.name).ToList();
+            var colors = _players.Select(p => p.colour).ToList();
             Debug.Log("Starting Game with " + names.Count + " players");
             Debug.Log("Names: " + string.Join(", ", names));
             Debug.Log("Colors: " + string.Join(", ", colors));
 
-            GameManager.instance.CreatePlayerObjects(names, colors);
+            GameManager.instance.SetPlayers(_players.Select(p => p.player).ToList());
             GameManager.instance.LogData();
 
             SceneManager.LoadScene(EScene.Game);
@@ -210,13 +211,14 @@ namespace UI
     {
         public PlayerInfo(string name, EColour color, GameObject card)
         {
-            Name = name;
-            Color = color;
-            Card = card;
+            player = new PlayerObject(name, color);
+            this.card = card;
         }
 
-        public string Name { get; set; }
-        public EColour Color { get; set; }
-        public GameObject Card { get; set; }
+        public PlayerObject player { get; set; }
+        public GameObject card { get; set; }
+
+        public string name => player.name;
+        public EColour colour => player.colour;
     }
 }

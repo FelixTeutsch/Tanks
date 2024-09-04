@@ -963,9 +963,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ec6424af9764c0c85a359b7aa4276e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 2654056976262430904, guid: 220ac4e36d7be446fb0638e729e5c4c7, type: 3}
+  playerPrefab: {fileID: 2867534957051605199, guid: a133ec3fc4944422995c2bab3708602e, type: 3}
   playerCount: 7
-  scoreUiController: {fileID: 0}
+  printPlayers: 0
 --- !u!1 &968350459
 GameObject:
   m_ObjectHideFlags: 0

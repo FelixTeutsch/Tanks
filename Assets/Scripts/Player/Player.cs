@@ -59,7 +59,6 @@ namespace Player
             ValidateTank();
             // Set the tank's color
             _tank.SetColourAndName(playerColor, name);
-            ScoreUiController.instance.TankActive();
         }
 
         public void MoveTank(float movementInput)
