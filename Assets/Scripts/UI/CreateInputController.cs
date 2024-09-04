@@ -21,6 +21,8 @@ namespace UI
         [SerializeField] private Button addPlayerButton;
         [SerializeField] private TMP_Text playerCountText;
         [SerializeField] private Button startGameButton;
+        [SerializeField] private TMP_InputField seedInput;
+
         private readonly int _maxPlayers = 6;
 
         private readonly List<PlayerInfo> _players = new();
@@ -197,6 +199,8 @@ namespace UI
 
             GameManager.instance.SetPlayers(_players.Select(p => p.player).ToList());
             GameManager.instance.LogData();
+            GameManager.instance.SetSeed(seedInput.text);
+
 
             SceneManager.LoadScene(EScene.Game);
         }

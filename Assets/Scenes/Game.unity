@@ -2054,6 +2054,8 @@ MonoBehaviour:
   - {fileID: 5558552247805302053, guid: 813207416e0c143df8c8224f48b8689a, type: 3}
   - {fileID: 5558552247805302053, guid: 8b444a0c29d3b4340b6a98460234ce54, type: 3}
   - {fileID: 5558552247805302053, guid: 1066934d229c347dbb24d10178e88974, type: 3}
+  - {fileID: 5558552247805302053, guid: b618efa2576874fffa1abf86e51d36e9, type: 3}
+  - {fileID: 5558552247805302053, guid: adec9e4a1de684e34bebc5e7817789c0, type: 3}
   controlsLocked: 0
   powerSlider: {fileID: 562712691}
 --- !u!114 &1088744832

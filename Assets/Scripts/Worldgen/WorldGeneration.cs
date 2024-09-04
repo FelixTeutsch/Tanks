@@ -46,8 +46,8 @@ namespace Worldgen
             Debug.Log($"Player 1: {players[0].name}");
 
             // randomize the seed
-            perlinSeed = new Random().Next(0, 10000);
-            perlinSeed = 7582; // This seed seems to kick a tank off the map
+            perlinSeed = GameManager.instance.gameSeed;
+            // perlinSeed = 7582; // This seed seems to kick a tank off the map
 
             // Get the width and height of the camera in world units
             _worldWidth = CameraUtility.GetCameraWidth(Camera.main);

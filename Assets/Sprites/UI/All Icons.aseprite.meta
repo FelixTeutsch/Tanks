@@ -289,8 +289,8 @@ ScriptedImporter:
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 44
-      y: 84
+      x: 82
+      y: 44
       width: 32
       height: 32
     spriteID: b98eb449c63b844a0bc1fa4ac09442e8
@@ -390,10 +390,50 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 84
-      y: 4
+      y: 84
       width: 32
       height: 18
     spriteID: 7455473b1cda4415bb749eaebf098ae7
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: icon_home
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 43
+      y: 84
+      width: 32
+      height: 32
+    spriteID: d566c93f89d984c8b8d5f0de5f1094ac
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: icon_reload
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 83
+      y: 4
+      width: 32
+      height: 32
+    spriteID: 1c5fa281bbc214c3a8f9fe1ba90efba8
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -466,6 +506,22 @@ ScriptedImporter:
         width: 32
         height: 18
       spriteId: 784c31469422647ffbb49628e31517dc
+    - name: All Icons_Frame_7
+      frameIndex: 7
+      cellRect:
+        x: 1
+        y: 0
+        width: 30
+        height: 32
+      spriteId: ac1f03b314d2a4e00a4312f15f9b16ac
+    - name: All Icons_Frame_8
+      frameIndex: 8
+      cellRect:
+        x: 1
+        y: 0
+        width: 30
+        height: 32
+      spriteId: 884a75f1ac28d4628b1f8bec7f783130
     linkedCells: []
     parentIndex: -1
   platformSettings:

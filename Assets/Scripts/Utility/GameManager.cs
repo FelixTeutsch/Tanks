@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Player;
 using UI;
 using UnityEngine;
+using Random = System.Random;
 
 namespace Utility
 {
@@ -11,6 +13,7 @@ namespace Utility
         [SerializeField] private GameObject tankPrefab;
         [SerializeField] public int playerCount = 7;
         [SerializeField] private bool printPlayers;
+        public int gameSeed;
         private List<PlayerObject> players { get; set; }
         public static GameManager instance { get; private set; }
 
@@ -109,9 +112,9 @@ namespace Utility
             var newPlayerIndex = (players.IndexOf(currentPlayer) + 1) % players.Count;
             currentPlayer = players[newPlayerIndex];
 
-            if (currentPlayer.tank == null)
+            if (!currentPlayer.isAlive)
             {
-                activePlayers--;
+                activePlayers = players.Count(player => player.isAlive);
                 SwitchPlayer();
             }
             else
@@ -124,9 +127,21 @@ namespace Utility
             Debug.Log("GameManager - SwitchPlayer END");
         }
 
+        public void SetSeed(string seed)
+        {
+            gameSeed = string.IsNullOrEmpty(seed)
+                ? new Random().Next(0, 1000)
+                : Math.Abs(seed.Aggregate(0, (hash, c) => (hash * 31 + c) % 1000));
+            Debug.Log($"Input Seed: '{seed}' was transformed to '{gameSeed}'");
+        }
+
         private void RoundOver()
         {
             // Handle round over logic
+            Debug.Log("GameManager - RoundOver START");
+            Debug.Log("Round Over");
+            SceneManager.LoadScene(EScene.GameOver);
+            Debug.Log("GameManager - RoundOver END");
         }
     }
 }

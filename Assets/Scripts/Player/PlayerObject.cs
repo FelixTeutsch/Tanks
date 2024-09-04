@@ -7,12 +7,20 @@ namespace Player
     public class PlayerObject
     {
         private Tank _tankScript;
+        public bool isAlive = true;
 
         public PlayerObject(string name, EColour colour, GameObject tank)
         {
             this.name = name;
             this.colour = colour;
             this.tank = tank;
+        }
+
+        public PlayerObject(string name, EColour colour, int score)
+        {
+            this.name = name;
+            this.colour = colour;
+            this.score = score;
         }
 
         public PlayerObject(string name, EColour colour)
@@ -117,6 +125,12 @@ namespace Player
         {
             if (ValidateTank())
                 _tankScript.activePlayer = true;
+        }
+
+        public void ResetPlayer()
+        {
+            score = 0;
+            controlsLocked = false;
         }
     }
 }

@@ -62,12 +62,12 @@ namespace UI
                 nameText.SetText(player.name);
                 scoreText.SetText(player.score.ToString());
                 scoreUi.name = player.name;
-                SetPlayerColors();
 
                 _playerScores.Add(new PlayerScore(scoreUi, player));
             }
 
             _initialised = true;
+            SetPlayerColors();
             Debug.Log("ScoreUiController - Init END");
         }
 

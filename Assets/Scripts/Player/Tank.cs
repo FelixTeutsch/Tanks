@@ -121,7 +121,11 @@ namespace Player
         {
             hp -= damage;
             tankHealthBar.value = hp;
-            if (hp <= 0) Destroy(gameObject);
+            if (hp <= 0)
+            {
+                _owner.isAlive = false;
+                Destroy(gameObject);
+            }
         }
 
         public void SetOwner(PlayerObject owner)

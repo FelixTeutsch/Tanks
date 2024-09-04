@@ -9,7 +9,8 @@ namespace Utility
         PlayerAdd,
         Settings,
         Game,
-        Shop
+        Shop,
+        GameOver
     }
 
     public static class SceneManager
