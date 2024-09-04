@@ -29,6 +29,7 @@ namespace Utility
 
         private void Start()
         {
+            _windTrend = Random.Range(0, 2) == 0 ? 1 : -1;
             UpdateWind();
         }
 

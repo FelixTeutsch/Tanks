@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 140643980}
   - component: {fileID: 140643979}
   m_Layer: 5
-  m_Name: Quit
+  m_Name: Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1411,7 +1411,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 717897579}
   m_OnClick:
     m_PersistentCalls:
@@ -2581,7 +2581,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -6453116295092292019, guid: 8ae47e218cea64b9f8d93a073468e447, type: 3}
+  m_Sprite: {fileID: -239095462359151728, guid: 99c9486f81e1b46cfa5d33d58b8ba5ab, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2790,7 +2790,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -5395939997879956559, guid: 31666e9eab2584de89165b21d5c6e743, type: 3}
+  m_Sprite: {fileID: -7308742466696603271, guid: 99c9486f81e1b46cfa5d33d58b8ba5ab, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3062,7 +3062,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 6328878210864530751, guid: cacfd25d695b2424c86fa87a09332a2a, type: 3}
+  m_Sprite: {fileID: -502788838150668397, guid: 99c9486f81e1b46cfa5d33d58b8ba5ab, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
